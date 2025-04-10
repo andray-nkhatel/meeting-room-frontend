@@ -124,7 +124,7 @@ const BookingForm = ({ bookingId = null, initialData = null }) => {
   }
 
   return (
-    <div className="card">
+    <div className="">
       <div className="card-body">
         <h2 className="card-title mb-4">{isEditMode ? 'Edit Booking' : 'New Booking'}</h2>
         

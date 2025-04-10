@@ -8,9 +8,9 @@ const Navbar = () => {
   const navigate = useNavigate();
 
   // Add this to debug the current user state
-  useEffect(() => {
-    console.log('Navbar currentUser:', currentUser);
-  }, [currentUser]);
+  // useEffect(() => {
+  //   console.log('Navbar currentUser:', currentUser);
+  // }, [currentUser]);
 
   const handleLogout = () => {
     logout();

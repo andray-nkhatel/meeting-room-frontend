@@ -1,4 +1,3 @@
-// src/pages/Home.jsx
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import bookingService from '../api/bookingService';
@@ -37,9 +36,10 @@ const Home = () => {
   return (
     <div className="container mt-4">
       <div className="row">
-        <div className="col-lg-8">
-          <div className="jumbotron">
-            <h1 className="display-4">Welcome to Emerald!</h1>
+        {/* Main content - full width on mobile, 8 columns on large screens */}
+        <div className="col-12 col-lg-8 mb-4">
+          <div className="jumbotron p-4 bg-light rounded">
+            <h1 className="display-5 display-md-4">Welcome to Emerald!</h1>
             <p className="lead">
               Schedule meetings, manage your schedules, and find available spaces all in one place.
             </p>
@@ -47,53 +47,58 @@ const Home = () => {
             <p>
               Get started by browsing available rooms or checking your upcoming meetings.
             </p>
-            <div className="mt-4">
-              <Link className="btn btn-primary btn-lg me-2" to="/rooms">Browse Rooms</Link>
-              {/* {currentUser && (
+            <div className="mt-4 d-flex flex-wrap gap-2">
+              <Link className="btn btn-primary btn-lg" to="/rooms">Browse Rooms</Link>
+              {currentUser && (
                 <Link className="btn btn-success btn-lg" to="/bookings/my">My Bookings</Link>
-              )} */}
+              )}
             </div>
           </div>
         </div>
         
-        <div className="col-lg-4">
-          <div className="card">
+        {/* Today's Meetings - full width on mobile, 4 columns on large screens */}
+        <div className="col-12 col-lg-4">
+          <div className="card shadow-sm mb-4">
             <div className="card-header bg-primary text-white">
               <h5 className="mb-0">Today's Meetings</h5>
             </div>
             <div className="card-body">
               {loading ? (
-                <p>Loading today's meetings...</p>
+                <div className="text-center py-3">
+                  <div className="spinner-border text-primary" role="status">
+                    <span className="visually-hidden">Loading...</span>
+                  </div>
+                  <p className="mt-2">Loading today's meetings...</p>
+                </div>
               ) : error ? (
-                <p className="text-danger">{error}</p>
+                <div className="alert alert-danger" role="alert">
+                  <p className="mb-0">{error}</p>
+                </div>
               ) : todaysMeetings.length === 0 ? (
-                <p>No meetings scheduled for today.</p>
+                <p className="text-center py-3">No meetings scheduled for today.</p>
               ) : (
                 <div className="list-group">
                   {todaysMeetings.map(meeting => (
-                    <div key={meeting.id} className="list-group-item list-group-item-action mb-2 ">
-                      <div className="d-flex w-100 justify-content-between">
-                        {/* <sub className='mb-1'><b>{meeting.title}</b></sub>
-                        <sub>{formatTime(meeting.startTime)} - {formatTime(meeting.endTime)}</sub> */}
-
-                       <small style={{ fontSize: '0.7rem' }} className="text-muted mb-1">
-                        
-                          <b title={meeting.title}>
-                          {meeting.title.length > 30 ? meeting.title.substring(0, 30) + '...' : meeting.title}
-                          </b>
-                      </small>
-
-                        <small style={{ fontSize: '0.7rem' }}>{formatTime(meeting.startTime)} hrs</small>
+                    <div key={meeting.id} className="list-group-item list-group-item-action mb-2">
+                      <div className="d-flex flex-column w-100">
+                        <div className="d-flex justify-content-between align-items-center mb-1">
+                          <span className="fw-bold" style={{ wordBreak: 'break-word' }}>
+                            {meeting.title}
+                          </span>
+                          <small className="text-nowrap ms-2">{formatTime(meeting.startTime)} hrs</small>
+                        </div>
+                        <small className="text-muted">{meeting.roomName}</small>
                       </div>
-                      {/* <p className="mb-1 small">{meeting.roomName}</p> 
-                      <small>Booked by: {meeting.bookedByUserName}</small> */}
                     </div>
                   ))}
                 </div>
               )}
             </div>
-            <div className="card-footer">
-              <Link to="/rooms" className="btn btn-outline-primary btn-sm">Book a Room</Link>
+            <div className="card-footer d-flex justify-content-between align-items-center">
+              <Link to="/rooms" className="btn btn-primary">Book a Room</Link>
+              {currentUser && (
+                <Link to="/bookings/my" className="btn btn-outline-secondary">My Bookings</Link>
+              )}
             </div>
           </div>
         </div>
